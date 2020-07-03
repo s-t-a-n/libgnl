@@ -72,19 +72,18 @@ else
 	CC_FLAGS += $(CC_OPT_FLAGS)
 	LD_FLAGS +=
 endif
-# dependencies
 
 # os variables
 UNAME_S := $(shell uname -s)
 ifeq ($(UNAME_S),Linux)
     OS = LINUX
-    CC_FLAGS += -D LINUX
-    LD_FLAGS += 
+    CC_FLAGS += -D LINUX -Wno-misleading-indentation
+    LD_FLAGS +=
 endif
 ifeq ($(UNAME_S),Darwin)
     OS = OSX
     CC_FLAGS += -D OSX
-    LD_FLAGS += 
+    LD_FLAGS +=
 endif
 
 # make commands
