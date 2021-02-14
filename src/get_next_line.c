@@ -107,7 +107,7 @@ int						get_next_line(int fd, char **line)
 			if (!buffer_actual->next)
 				return (ft_fork_buffer(fd, line, &buffer,
 						(t_buffer **)&buffer_actual->next));
-				buffer_actual = buffer_actual->next;
+			buffer_actual = buffer_actual->next;
 		}
 	buffer_actual->fd = fd;
 	if (buffer_actual->store[0] > 0)
