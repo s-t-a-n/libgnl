@@ -9,9 +9,9 @@ src/get_next_line_utils.c
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	if(BUILD_TESTING)
-		target_compile_options(gnl PRIVATE "-Wall -Wextra -Werror -std=c89 -pedantic -g -fsanitize=address")
+		target_compile_options(gnl PRIVATE -Wall -Wextra -Werror -std=c89 -pedantic -g -fsanitize=address)
 	else()
-		target_compile_options(gnl PRIVATE "-Wall -Wextra -Werror -std=c89 -pedantic")
+		target_compile_options(gnl PRIVATE -Wall -Wextra -Werror -std=c89 -pedantic)
 	endif()
 endif()
 
