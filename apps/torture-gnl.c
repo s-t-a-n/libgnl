@@ -17,11 +17,12 @@ int main(int argc, char **argv)
 		assert(fd >= 0);
 		while (get_next_line(fd, &buf) > 0)
 		{
-			printf(":%30s : \'%s\'", "#", buf);
+			printf("%s\n", buf);
 			free(buf);
 			buf = NULL;
 		}
 		free(buf);
+		close(fd);
 		return (0);
 	}
 	else

@@ -14,7 +14,6 @@ elif [ $# -eq 1 ] && [ "$1" == "clean" ]; then
 elif [ $# -eq 0 ]; then
 	# compile and copy gnl binary and lib to root folder
 	cmake -S . -B $build_dir -DBUILD_TESTING=OFF && ( cd $build_dir && make ) \
-	&& cp $build_dir/apps/torture-gnl.bin ./gnl \
 	&& cp $build_dir/src/libgnl.a ./ \
 	&& echo -e "You can run ./\e[92mgnl\e[39m now or include \e[92mlibgnl.a\e[39m in your library." \
 	|| { echo -e "Compilation ran: \e[91mNOPE\e[39m."; false; }
