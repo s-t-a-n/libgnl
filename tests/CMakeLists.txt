@@ -8,12 +8,19 @@ FetchContent_MakeAvailable(Catch2)
 set (TEST "test-all")
 file(GLOB SRC_LIST CONFIGURE_DEPENDS "src/*.cpp")
 
-add_executable(${TEST}.bin ${SRC_LIST})
-target_compile_features(${TEST}.bin PRIVATE cxx_std_14)
-target_link_libraries(${TEST}.bin PRIVATE Catch2::Catch2WithMain)
-target_link_libraries(${TEST}.bin PRIVATE gnl)
-add_test(NAME ${TEST}
-		COMMAND ${TEST}.bin)
+if((CMAKE_PROJECT_NAME STREQUAL gnl OR MODERN_CMAKE_BUILD_TESTING))
+  set (TEST "test-all")
+  file(GLOB SRC_LIST CONFIGURE_DEPENDS "src/*.cpp")
+  
+  add_executable(${TEST}.bin ${SRC_LIST})
+  target_compile_features(${TEST}.bin PRIVATE cxx_std_14)
+  target_link_libraries(${TEST}.bin PRIVATE Catch2::Catch2WithMain)
+  target_link_libraries(${TEST}.bin PRIVATE gnl)
+  add_test(NAME ${TEST}
+  		COMMAND ${TEST}.bin)
+endif()
+
+#### Individual unittests
 
 ### lexer unittest
 #set (TEST "test-lexer")
