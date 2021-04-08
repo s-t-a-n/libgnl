@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.12)
+cmake_minimum_required(VERSION 3.5)
 project(
 	gnl
 	VERSION 0.1
@@ -8,22 +8,32 @@ project(
 # CMakeLists.txt inspired by:
 # https://gitlab.com/CLIUtils/modern-cmake/tree/master/examples/extended-project
 
+set(SRC_D src)
+set(INC_D inc)
+set(TESTS_D tests)
+
 # Only do these if this is the main project, and not if it is included through add_subdirectory
 if(CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME)
 	# global compilation standards
-	set(CMAKE_C_STANDARD 90)
-	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra -pedantic")
+	set(CMAKE_C_STANDARD 99)
+	set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -Wall -Werror -Wextra")
 	
 	set(CMAKE_CXX_STANDARD 98)
 	set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -Wall -Werror -Wextra")
 
-	option(BUILD_TESTING "Build unittests and standlone torture 'apps' " ON)
-
+	option(BUILD_TESTING "Build unittests and standlone torture 'apps' " OFF)
 	if(BUILD_TESTING)
 		include(CTest)
+	endif()
 
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -g -fsanitize=address")
-		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -g -fsanitize=address")
+	if(CMAKE_BUILD_TYPE STREQUAL "Debug" OR BUILD_TESTING)
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address")
+		set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address")
+
+		add_compile_definitions(DEBUG=1)
+		add_compile_definitions(DEBUG_FILE="./minishell.log")
+	else()
+		add_compile_definitions(DEBUG=0)
 	endif()
 
 	# Let's nicely support folders in IDEs
@@ -53,12 +63,12 @@ if(${CMAKE_VERSION} VERSION_LESS 3.14)
 	include(cmake/add_FetchContent_MakeAvailable.cmake)
 endif()
 
-add_subdirectory(src)
-add_subdirectory(apps)
+# Target directories
+add_subdirectory(${SRC_D})
 
 # Testing only available if this is the main app
 # Emergency override MODERN_CMAKE_BUILD_TESTING provided as well
 if((CMAKE_PROJECT_NAME STREQUAL PROJECT_NAME OR MODERN_CMAKE_BUILD_TESTING)
    AND BUILD_TESTING)
-  add_subdirectory(tests)
+  add_subdirectory(${TESTS_D})
 endif()
