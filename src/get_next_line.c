@@ -58,6 +58,7 @@ int						ft_read_to_buffer(int fd, char **line,
 	}
 	if (buffer->bytes_read == 0 || (buffer->bytes_read < BUFFER_SIZE
 				&& (ssize_t)split_pos == buffer->bytes_read
+				&& buffer->bytes_read > 0
 				&& buffer->store[buffer->bytes_read - 1] != '\n'))
 		return (ft_packup_buffer(root_buffer, buffer));
 	ft_flush_buffer(buffer);
@@ -72,7 +73,7 @@ int						ft_read_from_buffer(int fd, char **line,
 	size_t				split_pos;
 
 	split_pos = 0;
-	while (buffer->store[split_pos] != '\n' && split_pos < BUFFER_SIZE)
+	while (split_pos < BUFFER_SIZE && buffer->store[split_pos] != '\n')
 		split_pos++;
 	*line = ft_strljoin(*line, buffer->store, split_pos);
 	if (buffer->store[split_pos] == '\n')
