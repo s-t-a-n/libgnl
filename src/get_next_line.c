@@ -18,10 +18,10 @@ void					ft_flush_buffer(t_buffer *buffer)
 	size_t				ctr;
 
 	split_pos = 0;
-	while (buffer->store[split_pos] != '\n' && split_pos < BUFFER_SIZE)
+	while (split_pos < BUFFER_SIZE && buffer->store[split_pos] != '\n')
 		split_pos++;
 	ctr = 0;
-	if (buffer->store[split_pos] == '\n')
+	if (split_pos < BUFFER_SIZE && buffer->store[split_pos] == '\n')
 		split_pos++;
 	while (split_pos < BUFFER_SIZE)
 	{
